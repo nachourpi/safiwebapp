@@ -77,7 +77,7 @@ export default class App extends React.Component {
     let dataByDate = []
 
 
-    this.state.rawData.forEach(d=>{
+    this.state.rawData.forEach((d,i)=>{
       if(d.value<0){
         d.state=1
         d.stateName='off'
@@ -92,41 +92,54 @@ export default class App extends React.Component {
         d.stateName='loaded'
       }
 
+      let date=moment(d.date.toDate()).format("MM/DD HH")+"hs"
+      let prevDate
 
+      let diff
+      if(i>0){
+        prevDate=moment(d.date.toDate()).format("MM/DD HH")+"hs"
+        diff = (d.date.toDate().getTime() - this.state.rawData[i-1].date.toDate().getTime())/1000
+        //diff = diff>30?30:diff
+      }else{
+        diff = 30
+      }
+      if(diff>30){
+        console.log("WEIRD:",[this.state.rawData[i-1].timestampValue,d.timestampValue])
+        console.log("WEIRD:",[date,prevDate])
+      }
       //Sumup loadTime KPI
       if(d.state==4){
         let h = d.date.toDate().getHours()
         if(h>6 && h<12){
-          loadTime.morning+=30
+          loadTime.morning+=diff
         }else if(h>12 && h<20){
-          loadTime.afternoon+=30
+          loadTime.afternoon+=diff
         }else{
-          loadTime.night+=30
+          loadTime.night+=diff
         }
       }
       //Sum up time-duration by state
-      data[d.state-1].duration+=30
-
-
-      let date=moment(d.date.toDate()).format("MM/DD HH")+"hs"
+      data[d.state-1].duration+=diff
 
       //Aggregate data utilization by date-hour
       if(dataByDate[date]){
-        dataByDate[date][d.stateName]+=30
+        dataByDate[date][d.stateName]+=diff
       }else{
         dataByDate[date]={
           date:date,
-          off:d.state==1?30:0,
-          unloaded:d.state==2?30:0,
-          idle:d.state==3?30:0,
-          loaded:d.state==4?30:0
+          off:d.state==1?diff:0,
+          unloaded:d.state==2?diff:0,
+          idle:d.state==3?diff:0,
+          loaded:d.state==4?diff:0
         }
       }
+      dataByDate[date].q=dataByDate[date].q?(dataByDate[date].q+1):1
 
     })
     //Convert dataByDate to array
     dataByDate=Object.values(dataByDate)
 
+    console.log("REGS PER HOUR:",dataByDate.map(v=>v.q))
 
     const totalDuration = data.reduce((p,c)=>p+c.duration,0)
     const machineOnDuration = data.reduce((p,c)=>p+(c.label!="OFF"?c.duration:0),0)
@@ -148,7 +161,7 @@ export default class App extends React.Component {
         workingRatio:Math.round(100*10*machineWorkingDuration/machineOnDuration) / 10,
         mostLoadPeriod:mostLoadPeriod
     })
-    
+
   }
 
   _renderDuration = (duration)=>{
