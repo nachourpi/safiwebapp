@@ -108,3 +108,6 @@ input{
   margin-bottom: 20px;
 }
 
+input[type="date"]::-webkit-clear-button {
+  display: none;
+}
