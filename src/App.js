@@ -2,11 +2,11 @@ import React from 'react';
 import { XAxis, Tooltip, BarChart, Bar,Legend} from 'recharts';
 import moment from 'moment';
 import './App.css';
+import firebaseConfig from './env.json';
 import * as firebase from 'firebase';
 
 
-
-var firebaseConfig = {
+firebaseConfig = {
   apiKey: "AIzaSyA9_MSElqRRpXnqAKyVC5dfeVGi2LDskL0",
   authDomain: "safiwebapp.firebaseapp.com",
   databaseURL: "https://safiwebapp.firebaseio.com",
@@ -16,6 +16,7 @@ var firebaseConfig = {
   appId: "1:137632814116:web:012ef624195614f132f4b1",
   measurementId: "G-31FD0P8RG0"
 };
+var 
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
