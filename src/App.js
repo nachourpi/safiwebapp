@@ -24,9 +24,9 @@ export default class App extends React.Component {
     this.state = {
       loading:false,
       minThreshold:0.6,
-      operatingLoad:100,
+      operatingLoad:500,
       from: new Date("2018-08-18T00:00"),
-      to: new Date("2018-08-25T00:00"),
+      to: new Date("2018-08-22T00:00"),
       rawData:[],
       data:[],
       dateChanged:false,
