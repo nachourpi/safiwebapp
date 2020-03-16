@@ -35,8 +35,8 @@ export default class App extends React.Component {
       loading:false,
       minThreshold:0.6,
       operatingLoad:100,
-      from: new Date("2018-08-19T00:00"),
-      to: new Date("2018-08-20T00:00"),
+      from: new Date("2018-08-18T00:00"),
+      to: new Date("2018-08-25T00:00"),
       rawData:[],
       data:[],
       dateChanged:false,
@@ -200,11 +200,11 @@ export default class App extends React.Component {
         <form onSubmit={this.handleSubmit}>
         <label>
           From:
-          <input type="date" onChange={(e)=>this._changeFrom(e.target.value)} min="2018-08-19" max="2018-08-25" value={this.state.from.toISOString().split("T").shift()} />
+          <input type="date" onChange={(e)=>this._changeFrom(e.target.value)} min="2018-08-18" max="2018-08-25" value={this.state.from.toISOString().split("T").shift()} />
         </label>
         <label>
           To:
-          <input type="date" onChange={(e)=>this._changeTo(e.target.value)} min="2018-08-19" max="2018-08-25" value={this.state.to.toISOString().split("T").shift()} />
+          <input type="date" onChange={(e)=>this._changeTo(e.target.value)} min="2018-08-18" max="2018-08-25" value={this.state.to.toISOString().split("T").shift()} />
         </label>
         <label>
           Minimum Amp Threshold:
